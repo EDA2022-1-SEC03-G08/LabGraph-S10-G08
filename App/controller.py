@@ -27,6 +27,7 @@
 import config as cf
 from App import model
 import csv
+import time
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -111,8 +112,11 @@ def minimumCostPaths(analyzer, initialStation):
     Calcula todos los caminos de costo minimo de initialStation a todas
     las otras estaciones del sistema
     """
-    return model.minimumCostPaths(analyzer, initialStation)
-
+    start_time = getTime()
+    x = model.minimumCostPaths(analyzer, initialStation)
+    stop_time = getTime()
+    delta_time = deltaTime(stop_time, start_time)
+    return x
 
 def hasPath(analyzer, destStation):
     """
@@ -125,7 +129,11 @@ def minimumCostPath(analyzer, destStation):
     """
     Retorna el camino de costo minimo desde initialStation a destStation
     """
-    return model.minimumCostPath(analyzer, destStation)
+    start_time = getTime()
+    x = model.minimumCostPath(analyzer, destStation)
+    stop_time = getTime()
+    delta_time = deltaTime(stop_time, start_time)
+    return x
 
 
 def servedRoutes(analyzer):
@@ -134,3 +142,20 @@ def servedRoutes(analyzer):
     """
     maxvert, maxdeg = model.servedRoutes(analyzer)
     return maxvert, maxdeg
+
+# Funciones para medir tiempos de ejecucion
+
+
+def getTime():
+    """
+    devuelve el instante tiempo de procesamiento en milisegundos
+    """
+    return float(time.perf_counter()*1000)
+
+
+def deltaTime(end, start):
+    """
+    devuelve la diferencia entre tiempos de procesamiento muestreados
+    """
+    elapsed = float(end - start)
+    return elapsed
